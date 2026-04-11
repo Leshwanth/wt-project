@@ -30,25 +30,29 @@ const signUp = async (req, res) =>{
 
 const login = async (req, res) =>{
     try{
-        const { username, email, password } = req.body;
+        // console.log("Login Request Body:", req.body);
+        const { username, password } = req.body;
 
-        const loginValue = username || email;
-
-        if(!loginValue || !password) {
+        if(!username || !password){
             return res.status(400).json({ message: "Invalid username / password" });
-        } 
+        }
 
-        
         const existingUser = await User.findOne({
             $or: [
-                { username: loginValue },
-                { email: loginValue },
+                { username: username },
+                { email: username }
             ]
         });
+
+        // console.log("JWT_SECRET:", process.env.JWT_SECRET);
+
+        // console.log("Entered password:", password);
+        // console.log("DB password:", existingUser.password);
 
         if(!existingUser) return res.status(404).json({ message: "User Not Found" });
 
         const isMatch = await bcrypt.compare(password, existingUser.password);
+        // console.log("Password Match:", isMatch);
 
         if(!isMatch) {
             return res.status(400).json({ message: "Invalid Credentials" });
@@ -61,7 +65,14 @@ const login = async (req, res) =>{
         );
 
         // console.log("Token Recieved :" , token);
-        return res.status(200).json({ message: "Login Successful!", token });
+        return res.status(200).json({ 
+                    message: "Login Successful!", 
+                    token,
+                    user: {
+                    username: existingUser.username,
+                    email: existingUser.email
+                }
+         });
 
     } catch(err){
         return res.status(500).json({ error: err.message });

@@ -2,18 +2,18 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const PORT = process.env.PORT || 8000;
 const DB_URL = process.env.MONGO_URL; 
-// console.log("DB_URL: ", DB_URL);
-// To read form data (URL-encoded data)
-// true = allows nested objects
+
+app.use(express.json()); 
+app.use(cors()); 
 app.use(express.urlencoded({ extended: true }));
 
 
 const userRouter = require('./routes/users.js');
 
-app.use(express.json()); // To read JSON data from the request body.
 app.use('/users', userRouter);
 
 

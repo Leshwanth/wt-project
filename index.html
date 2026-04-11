@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="style.css">
 </head>
+<script>
+    const token = localStorage.getItem("token");
+
+    if(!token){
+        window.location.href = "login.html";
+    }
+</script>
 <body>
     <header>
         <div class="navbar">
@@ -30,7 +37,7 @@
                 </div>
             </div>
             <div class="nav-signin border">
-                <p><span>Hello,sign in</span></p>
+                <p><span id="welcomeText">Hello</span></p>
                 <p class="nav-second">Accounts & Lists<p>
             </div>
             <div class="Returns border">
@@ -41,6 +48,9 @@
                 <i class="fa-solid fa-cart-shopping"></i>
                 Cart
             </div>
+            <button onclick="logout()" style="margin-left:5px; padding:5px 5px; cursor:pointer; width: 80px; border-radius: 18px;">
+                Logout
+            </button>
         </div>
         <div class="panel">
             <div class="panel-all">
@@ -176,10 +186,11 @@
                 <a>Your adds Privacy Choices</a>
             </div>
             <div class="copyright">
-                © 1996-2025, Amazon.com, Inc. or its affiliate
+                © 1996-2026, Amazon.com, Inc. or its affiliate
             </div>
         </div>
     </footer>
+    <script src="script.js"></script>
 </body>
 </html>
 
